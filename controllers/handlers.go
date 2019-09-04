@@ -8,9 +8,13 @@ import (
 )
 
 func RootHandler(w http.ResponseWriter, r *http.Request) {
-    t, _ := template.ParseFiles("static/index.html")
-    if err := t.Execute(w, nil); err != nil {
-        panic(err.Error())
+    t, err := template.ParseFiles("static/index.html")
+    if err != nil {
+        http.Error(w, "Could not serve page", http.StatusNotFound)
+    } else {
+        if err := t.Execute(w, nil); err != nil {
+            log.Printf("Could not execute template: %s", err.Error())
+        }
     }
 }
 
@@ -19,11 +23,13 @@ func ResultHandler(w http.ResponseWriter, r *http.Request) {
         http.Redirect(w, r, "", http.StatusPermanentRedirect)
     } else {
         _ = r.ParseForm()
-        ResultData := parsers.ParseBookQuery(r.FormValue("query"))
-
+        ResultData, err := parsers.ParseBookQuery(r.FormValue("query"))
+        if err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+        }
         t, err := template.ParseFiles("static/result.html")
         if err != nil {
-            log.Printf("Error: %s", err.Error())
+            log.Fatal("Error: %s", err.Error())
         }
         if err := t.Execute(w, ResultData); err != nil {
             log.Printf(err.Error())

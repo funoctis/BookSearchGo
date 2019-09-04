@@ -10,6 +10,7 @@ type VolumeInfo struct {
     Authors []string
     PublishedDate string
     Description string
+    InfoLink string
     ImageLinks ImageLinks
     ReadingModes ReadingModes
 }
