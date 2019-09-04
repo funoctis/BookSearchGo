@@ -3,6 +3,7 @@ package controllers
 import (
     "BookSearchGo/parsers"
     "html/template"
+    "log"
     "net/http"
 )
 
@@ -20,9 +21,12 @@ func ResultHandler(w http.ResponseWriter, r *http.Request) {
         _ = r.ParseForm()
         ResultData := parsers.ParseBookQuery(r.FormValue("query"))
 
-        t, _ := template.ParseFiles("static/result.html")
+        t, err := template.ParseFiles("static/result.html")
+        if err != nil {
+            log.Printf("Error: %s", err.Error())
+        }
         if err := t.Execute(w, ResultData); err != nil {
-            panic(err.Error())
+            log.Printf(err.Error())
         }
     }
 }
