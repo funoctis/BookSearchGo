@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="container">
+            <a class="navbar-brand" href="/index">BookSearchGo</a>
+        </div>
+    </nav>
+
+
+    {{range .Volumes}}
+        <div class="container" style="margin: 5% 15%;">
+        <div class="media">
+        <img src="{{.VolumeInfo.ImageLinks.Thumbnail}}" class="align-self-start mr-3" alt="...">
+        <div class="media-body">
+            <h5 class="mt-0">{{.VolumeInfo.Title}}</h5>
+            <h6 class="mt-0">{{range .VolumeInfo.Authors}} {{.}} {{end}}</h6>
+            <h6 class="mt-0">{{.VolumeInfo.PublishedDate}}</h6>
+            <p style="text-align: justify; text-justify: inter-word">{{.VolumeInfo.Description}}</p>
+        </div>
+        </div>
+        </div>
+    {{end}}
+
+
+    <footer class="footer bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3 h-100 text-center text-lg-left my-auto">
+                    <ul class="list-inline mb-2">
+                        <li class="list-inline-item">
+                            <a href="https://golang.org/" target="_blank">Made with Go</a>
+                        </li>
+                        <li class="list-inline-item">&sdot;</li>
+                        <li class="list-inline-item">
+                            <a href="#" target="_blank">Source</a>
+                        </li>
+                    </ul>
+                    <p class="text-muted small mb-4 mb-lg-0">Noctis0712 &sdot; 2019.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
