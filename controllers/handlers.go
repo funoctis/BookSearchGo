@@ -7,14 +7,13 @@ import (
     "net/http"
 )
 
+var templates = template.Must(template.ParseGlob("static/*"))
+
 func RootHandler(w http.ResponseWriter, r *http.Request) {
-    t, err := template.ParseFiles("static/index.html")
+    err := templates.ExecuteTemplate(w, "index", nil)
     if err != nil {
+        log.Println(err.Error())
         http.Error(w, "Could not serve page", http.StatusNotFound)
-    } else {
-        if err := t.Execute(w, nil); err != nil {
-            log.Printf("Could not execute template: %s", err.Error())
-        }
     }
 }
 
@@ -22,17 +21,20 @@ func ResultHandler(w http.ResponseWriter, r *http.Request) {
     if r.Method == "GET" {
         http.Redirect(w, r, "", http.StatusPermanentRedirect)
     } else {
-        _ = r.ParseForm()
-        ResultData, err := parsers.ParseBookQuery(r.FormValue("query"))
+        err := r.ParseForm()
         if err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
         }
-        t, err := template.ParseFiles("static/result.html")
+
+        ResultData, err := parsers.ParseBookQuery(r.FormValue("query"))
         if err != nil {
-            log.Fatal("Error: %s", err.Error())
+            log.Println(err.Error())
+            http.Error(w, err.Error(), http.StatusInternalServerError)
         }
-        if err := t.Execute(w, ResultData); err != nil {
+
+        if err := templates.ExecuteTemplate(w, "result",ResultData); err != nil {
             log.Printf(err.Error())
+            http.Error(w, "Could not serve page", http.StatusNotFound)
         }
     }
 }

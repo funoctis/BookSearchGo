@@ -15,6 +15,7 @@ func main() {
     if port == "" {
         port = "8000"
     }
+
     http.HandleFunc("/", controllers.RootHandler)
     http.HandleFunc("/result", controllers.ResultHandler)
     log.Fatal(http.ListenAndServe(":"+port, nil))
