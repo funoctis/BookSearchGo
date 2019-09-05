@@ -4,41 +4,57 @@ import (
     "encoding/json"
     "fmt"
     "io/ioutil"
+    "log"
     "net/http"
     "os"
     "strings"
 )
 
+
+//Return type for ParseBookQuery()
 type ResultData struct {
     Title string
     Volumes []Volume
 }
 
-func ParseBookQuery(query string) (ResultData, error) {
+//Takes the query string entered by the user and
+//fetches a response from Google Books API using BOOKSAPIKEY.
+//Returns list of volumes along with some info about them.
+func ParseBookQuery(query string) (*ResultData, error) {
+
     baseUrl := "https://www.googleapis.com/books/v1/volumes?"
     escapedQuery := strings.ReplaceAll(query, " ", "+")
     searchQuery := fmt.Sprintf("q=%s", escapedQuery)
     filters := "fields=items(id,volumeInfo,accessInfo)"
+
     key := os.Getenv("BOOKSAPIKEY")
     if key == "" {
-        return ResultData{}, fmt.Errorf("couldn't fetch Google Books API Key")
+        err := fmt.Errorf("couldn't fetch Google Books API Key")
+        log.Printf("ERROR while fetching response: %s", err.Error())
+        return &ResultData{}, err
     }
 
     link := fmt.Sprintf("%s%s&%s&%s", baseUrl, searchQuery, filters, key)
 
     response, err := http.Get(link)
     if err != nil {
-        return ResultData{}, err
-    }
-    responseData, err := ioutil.ReadAll(response.Body)
-    if err != nil {
-        return ResultData{}, err
-    }
-    var resp Resp
-    err = json.Unmarshal(responseData, &resp)
-    if err != nil {
-        return ResultData{}, err
+        log.Printf("ERROR while fetching response: %s", err.Error())
+        return &ResultData{}, err
     }
 
-    return ResultData{Title: query, Volumes: resp.Items[:10]}, nil
+    responseData, err := ioutil.ReadAll(response.Body)
+    if err != nil {
+        log.Printf("ERROR while reading response: %s", err.Error())
+        return &ResultData{}, err
+    }
+
+    var resp Resp
+
+    err = json.Unmarshal(responseData, &resp)
+    if err != nil {
+        log.Printf("ERROR while unmarshaling response: %s", err.Error())
+        return &ResultData{}, err
+    }
+
+    return &ResultData{Title: query, Volumes: resp.Items[:10]}, nil
 }

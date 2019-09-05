@@ -8,9 +8,15 @@ import (
     "os"
 )
 
+//Creates a web server which listens and servers on specified PORT
 func main() {
     var port string
-    _ = godotenv.Load()
+
+    err := godotenv.Load()
+    if err != nil {
+        log.Printf("ERROR could not load from .env file: %s", err.Error())
+    }
+
     port = os.Getenv("PORT")
     if port == "" {
         port = "8000"

@@ -1,10 +1,44 @@
 package parsers
 
-type ReadingModes struct {
-    PageCount int
-    AverageRating int
+/*
+Response schema  areas used by the application:
+{
+    "id": {
+    "type": "string"
+    },
+    "volumeInfo": {
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "authors": {
+            "type": "array",
+            "items": [
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "publishedDate": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "imageLinks": {
+            "type": "object",
+            "properties": {
+                "thumbnail": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }
+*/
 
+//Info for each volume(book)
 type VolumeInfo struct {
     Title string
     Authors []string
@@ -12,35 +46,20 @@ type VolumeInfo struct {
     Description string
     InfoLink string
     ImageLinks ImageLinks
-    ReadingModes ReadingModes
 }
 
+//Used by Bootstrap Media Object as the image source
 type ImageLinks struct {
     Thumbnail string
 }
 
-type Epub struct {
-    IsAvailable bool
-    DownloadLink string
-}
-
-type Pdf struct {
-    IsAvailable bool
-    DownloadLink string
-}
-
-type AccessInfo struct {
-    Epub Epub
-    Pdf Pdf
-    WebReaderLink string
-}
-
+//Individual books, received as a JSON array
 type Volume struct {
     Id string
     VolumeInfo VolumeInfo
-    AccessInfo AccessInfo
 }
 
+//Main struct for received JSON
 type Resp struct {
     Items []Volume
 }
