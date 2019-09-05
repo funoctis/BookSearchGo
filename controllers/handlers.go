@@ -5,6 +5,7 @@ import (
     "html/template"
     "log"
     "net/http"
+    "net/url"
 )
 
 //Parsing and caching the templates beforehand, to be executed later.
@@ -23,15 +24,24 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 //Parses and executes template for displaying the response data from parsers.ParseBookQuery()
 //Redirects to index page if no POST request
 func ResultHandler(w http.ResponseWriter, r *http.Request) {
-    if r.Method == "GET" {
+    urlString, err := url.Parse(r.URL.String())
+    if err != nil {
+        http.Error(w, "ERROR while parsing url: " + err.Error(), http.StatusInternalServerError)
+    }
+
+    rawQuery := urlString.RawQuery
+
+    if rawQuery == "" {
         http.Redirect(w, r, "", http.StatusPermanentRedirect)
     } else {
-        err := r.ParseForm()
+        m, err := url.ParseQuery(rawQuery)
+        query := m["query"][0]
+
         if err != nil {
             http.Error(w, err.Error(), http.StatusInternalServerError)
         }
 
-        ResultData, err := parsers.ParseBookQuery(r.FormValue("query"))
+        ResultData, err := parsers.ParseBookQuery(query)
         if err != nil {
             log.Println(err.Error())
             http.Error(w, err.Error(), http.StatusInternalServerError)
