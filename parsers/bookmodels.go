@@ -40,26 +40,26 @@ Response schema  areas used by the application:
 
 //Info for each volume(book)
 type VolumeInfo struct {
-    Title string
-    Authors []string
-    PublishedDate string
-    Description string
-    InfoLink string
-    ImageLinks ImageLinks
+	Title         string
+	Authors       []string
+	PublishedDate string
+	Description   string
+	InfoLink      string
+	ImageLinks    ImageLinks
 }
 
 //Used by Bootstrap Media Object as the image source
 type ImageLinks struct {
-    Thumbnail string
+	Thumbnail string
 }
 
 //Individual books, received as a JSON array
 type Volume struct {
-    Id string
-    VolumeInfo VolumeInfo
+	Id         string
+	VolumeInfo VolumeInfo
 }
 
 //Main struct for received JSON
 type Resp struct {
-    Items []Volume
+	Items []Volume
 }
