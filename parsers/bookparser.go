@@ -10,13 +10,13 @@ import (
 	"strings"
 )
 
-//Return type for ParseBookQuery()
+//ResultData is the return type for ParseBookQuery()
 type ResultData struct {
 	Title   string
 	Volumes []Volume
 }
 
-//Takes the query string entered by the user and
+//ParseBookQuery takes the query string entered by the user and
 //fetches a response from Google Books API using BOOKSAPIKEY.
 //Returns list of volumes along with some info about them.
 func ParseBookQuery(query string) (*ResultData, error) {

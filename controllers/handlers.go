@@ -11,7 +11,7 @@ import (
 //Parsing and caching the templates beforehand, to be executed later.
 var templates = template.Must(template.ParseGlob("static/*"))
 
-//Handler function for index page
+//RootHandler is the handler function for index page
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	err := templates.ExecuteTemplate(w, "index", nil)
 	if err != nil {
@@ -20,7 +20,7 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//Handler function for /result
+//ResultHandler is the handler function for /result
 //Parses and executes template for displaying the response data from parsers.ParseBookQuery()
 //Redirects to index page if no POST request
 func ResultHandler(w http.ResponseWriter, r *http.Request) {

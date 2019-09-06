@@ -38,7 +38,7 @@ Response schema  areas used by the application:
 }
 */
 
-//Info for each volume(book)
+//VolumeInfo contains info for each volume(book)
 type VolumeInfo struct {
 	Title         string
 	Authors       []string
@@ -48,18 +48,18 @@ type VolumeInfo struct {
 	ImageLinks    ImageLinks
 }
 
-//Used by Bootstrap Media Object as the image source
+//ImageLinks is used by Bootstrap Media Object as the image source
 type ImageLinks struct {
 	Thumbnail string
 }
 
-//Individual books, received as a JSON array
+//Volume is an individual book, multiple books are received as a JSON array
 type Volume struct {
 	Id         string
 	VolumeInfo VolumeInfo
 }
 
-//Main struct for received JSON
+//Resp is the main struct for received JSON
 type Resp struct {
 	Items []Volume
 }
