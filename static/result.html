@@ -12,7 +12,11 @@
         <div class="media-body">
             <h5 class="mt-0">{{.VolumeInfo.Title}}</h5>
             <h6 class="mt-0">{{range .VolumeInfo.Authors}} {{.}} {{end}} | Published: {{.VolumeInfo.PublishedDate}}</h6>
-            <h6 class="mt-0"><a href="{{.VolumeInfo.InfoLink}}" target="_blank">Get it on Play Books</a></h6>
+            <h6 class="mt-0">
+                <a href="{{.VolumeInfo.InfoLink}}" target="_blank">Play Books</a> |
+                <a href="https://www.amazon.in/s?k={{.VolumeInfo.Title}}" target="_blank">Amazon</a> |
+                <a href="https://www.flipkart.com/search?q={{.VolumeInfo.Title}}" target="_blank">Flipkart</a>
+            </h6>
             <p style="text-align: justify; text-justify: inter-word">{{.VolumeInfo.Description}}</p>
         </div>
         </div>
