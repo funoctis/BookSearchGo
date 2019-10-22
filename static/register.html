@@ -1,0 +1,19 @@
+{{define "register"}}
+    {{template "header"}}
+        <div class="container" style="height: 485px">
+            <form action="/login" method="post" style="padding: 10% 25% 0;">
+                <h1>Register</h1>
+                <div class="form-group">
+                    <label for="emailfield">Email address</label>
+                    <input type="email" class="form-control" id="emailfield" aria-describedby="emailHelp" placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="passwordfield">Password</label>
+                    <input type="password" class="form-control" id="passwordfield" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    {{template "footer"}}
+{{end}}
