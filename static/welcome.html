@@ -1,0 +1,26 @@
+{{define "welcome"}}
+    {{template "header"}}
+    <div class="container">
+        <div class="page-header" style="margin: 5% 5%;">
+            <h2>While we personalize this page for you, check out these New York Times Bestsellers.</h2>
+        </div>
+        {{range .Results}}
+            <div class="container" style="margin: 5% 15%;">
+                <div class="media">
+                    <div class="media-body">
+                        <h5 class="mt-0">{{range .BookDetails}} {{.Title}} {{end}}</h5>
+                        <h6 class="mt-0">{{range .BookDetails}} {{.Author}} {{end}} | Published: {{.PublishedDate}}</h6>
+                        {{range .BookDetails}}
+                        <h6 class="mt-0">
+                            <a href="https://www.amazon.in/s?k={{.Title}}" target="_blank">Amazon</a> |
+                            <a href="https://www.flipkart.com/search?q={{.Title}}" target="_blank">Flipkart</a>
+                        </h6>
+                        <p style="text-align: justify; text-justify: inter-word">{{.Description}}</p>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+        {{end}}
+    </div>
+    {{template "footer"}}
+{{end}}

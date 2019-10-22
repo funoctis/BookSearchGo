@@ -16,6 +16,5 @@
 
 .idea/
 .env
-go.sum
 *.zip
 *.db
