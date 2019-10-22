@@ -23,6 +23,9 @@ func main() {
 	}
 
 	http.HandleFunc("/", controllers.RootHandler)
+	http.HandleFunc("/register", controllers.RegisterHandler)
+	http.HandleFunc("/login", controllers.LoginHandler)
+	http.HandleFunc("/welcome", controllers.WelcomeHandler)
 	http.HandleFunc("/result", controllers.ResultHandler)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

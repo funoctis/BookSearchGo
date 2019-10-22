@@ -2,23 +2,10 @@ package controllers
 
 import (
 	"BookSearchGo/parsers"
-	"html/template"
 	"log"
 	"net/http"
 	"net/url"
 )
-
-//Parsing and caching the templates beforehand, to be executed later.
-var templates = template.Must(template.ParseGlob("static/*"))
-
-//RootHandler is the handler function for index page
-func RootHandler(w http.ResponseWriter, r *http.Request) {
-	err := templates.ExecuteTemplate(w, "index", nil)
-	if err != nil {
-		log.Println(err.Error())
-		http.Error(w, "Could not serve page", http.StatusNotFound)
-	}
-}
 
 //ResultHandler is the handler function for /result
 //Parses and executes template for displaying the response data from parsers.ParseBookQuery()

@@ -16,15 +16,18 @@ type ResultData struct {
 	Volumes []Volume
 }
 
+const (
+	baseUrl = "https://www.googleapis.com/books/v1/volumes?"
+	filters = "fields=items(id,volumeInfo,accessInfo)"
+)
+
 //ParseBookQuery takes the query string entered by the user and
 //fetches a response from Google Books API using BOOKSAPIKEY.
 //Returns list of volumes along with some info about them.
 func ParseBookQuery(query string) (*ResultData, error) {
 
-	baseUrl := "https://www.googleapis.com/books/v1/volumes?"
 	escapedQuery := strings.ReplaceAll(query, " ", "+")
 	searchQuery := fmt.Sprintf("q=%s", escapedQuery)
-	filters := "fields=items(id,volumeInfo,accessInfo)"
 
 	key := os.Getenv("BOOKSAPIKEY")
 	if key == "" {
